@@ -2,6 +2,10 @@ from .base import Base
 from datetime import datetime
 import numpy as np
 import pandas as pd
+import matplotlib
+matplotlib.use('TkAgg')
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 DATEFORMAT = '%Y-%m-%d'
 COLUMNDATE = 'date'
@@ -17,6 +21,7 @@ class Compute(Base):
 
     def run(self):
         print('Computing correlation now...')
+        print(self.options)
         startDate = self.__strToDateTime(self.options['--start-date'])
         lastDate = self.__strToDateTime(self.options['--last-date'])
         stocks = self.options['--stocks'].split(',')
@@ -43,6 +48,10 @@ class Compute(Base):
         corr_df = df_pivot.corr(method='pearson')
         print('Correlation Table')
         print(corr_df)
+
+        if self.options['--plot']:
+            ax = sns.heatmap(corr_df.values, cmap="YlGnBu", xticklabels=corr_df.columns, yticklabels=corr_df.columns)
+            plt.show()
 
 
     def __strToDateTime(self, date):

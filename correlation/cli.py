@@ -2,14 +2,14 @@
 compute-correlation
 Usage:
   compute-correlation hello
-  compute-correlation --start-date=<sd> --last-date=<ld> --stocks=<ss>
+  compute-correlation --start-date=<sd> --last-date=<ld> --stocks=<ss> [--plot]
   compute-correlation -h | --help
   compute-correlation --version
 Options:
   -h --help                         Show this screen.
   --version                         Show version.
 Examples:
-  compute-correlation --start-date=2010-01-01 --last-date=2010-01-11 --stocks=AAPL,MSFT,GOOG
+  compute-correlation --start-date=2015-01-01 --last-date=2019-01-11 --stocks=AAPL,MSFT,GOOG
   compute-correlation hello
 """
 

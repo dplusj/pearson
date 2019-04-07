@@ -12,10 +12,32 @@ development dependencies*), the command you'll want to run is::
 
     $ pip install -e .[test]
 
+Then you need create a configuration file ('~/.correlationrc') under your user folder with below information::
+
+    [DEFAULT]
+    APIKEY = XXXXXXXXX <- Free API KEY from `Alpha Vantage <https://www.alphavantage.co/support/#api-key>`
+    STOREPATH = path to store the local data cache 
+
 If you'd like to run all tests for this project (*assuming you've written
 some*), you would run the following command::
 
     $ python setup.py test
+
+Usage::
+    
+    compute-correlation hello
+    compute-correlation --start-date=<sd> --last-date=<ld> --stocks=<ss>
+    compute-correlation -h | --help
+    compute-correlation --version
+
+Options::
+    -h --help                         Show this screen.
+    --version                         Show version.
+
+Examples::
+   
+    compute-correlation --start-date=2015-01-01 --last-date=2019-01-11 --stocks=AAPL,MSFT,GOOG --plot
+    compute-correlation hello
 
 This will trigger `py.test <http://pytest.org/latest/>`_, along with its popular
 `coverage <https://pypi.python.org/pypi/pytest-cov>`_ plugin.

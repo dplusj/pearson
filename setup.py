@@ -50,7 +50,7 @@ setup(
     ],
     keywords = 'correlation',
     packages = find_packages(exclude=['docs', 'tests*']),
-    install_requires = ['docopt', 'pandas', 'alpha_vantage', 'matplotlib', 'tables'],
+    install_requires = ['docopt', 'pandas', 'alpha_vantage', 'matplotlib', 'tables', 'seaborn'],
     extras_require = {
         'test': ['coverage', 'pytest', 'pytest-cov'],
     },
