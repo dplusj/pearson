@@ -12,6 +12,11 @@ class DataFusion(object):
     """This class can query data remotely and sync with local cache
     """
     def __init__(self, dataPath, apiKey):
+        """ Initialize the class
+        Keyword Arguments:
+            dataPath:  path to store the local data cache
+            apiKey:  Alpha Vantage api key
+        """
         self.ts = TimeSeries(key=apiKey, output_format='pandas')
         self.codeIndex = pd.read_csv('correlation/refdata/USStockCode.csv')
         self.dataPath = dataPath
@@ -21,6 +26,10 @@ class DataFusion(object):
         self.store = pd.HDFStore(self.dataPath+'/'+HDFSTORE)
 
     def query(self, code):
+        """ query daily adjusted price data given the stock code
+        Keyword Arguments:
+            code:  stock symbol
+        """
         querySize = 'full'
         if METASTORE in self.store and code in self.store and code in self.store[METASTORE]:
             refreshDate = self.store[METASTORE][code]
@@ -36,6 +45,11 @@ class DataFusion(object):
         return self.store[code]
 
     def __save(self, code, data):
+        """ save the data into local hdfstore and update the metastore
+        Keyword Arguments:
+            code:  stock symbol
+            data:  pandas data frame which contains daily adjusted price data  
+        """
         if code in self.store:
             self.store[code] = pd.concat([self.store[code], data]).reset_index().drop_duplicates(subset=DATAINDEX,
                                        keep='first').set_index(DATAINDEX)
@@ -52,9 +66,15 @@ class DataFusion(object):
             self.store[METASTORE] = self.store[METASTORE].append(metadata)
 
     def isValidCodes(self, codes):
+        """ check the validity of the input stock array, return false if any entry has invalid stock symbol 
+        Keyword Arguments:
+            codes:  array of stock symbols 
+        """
         return pd.Series(codes).isin(self.codeIndex['USStockCode']).all()
 
     def exit(self):
+        """ close the local hdfstore 
+        """
         self.store.close()
 
 

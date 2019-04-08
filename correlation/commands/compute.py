@@ -13,15 +13,24 @@ COLUMNSYMBOL = 'symbol'
 COLUMNCLOSE = '5. adjusted close'
 
 class Compute(Base):
-    """Compute the correlation of stocks given the time window!"""
+    """Class to compute the correlation of stocks given the time window!"""
 
     def __init__(self, dataFusion, options, *args, **kwargs):
+        """ Initialize the class
+        Keyword Arguments:
+            dataFusion:  instance of DataFusion for querying data and validating inputs
+            options:  parameter from command line 
+        """
         super(Compute, self).__init__(options, args, kwargs)
         self.dataFusion = dataFusion
 
     def run(self):
+        """ Main Entry
+        1. Validate inputs, including starting date, last date and stocks
+        2. Query stock data 
+        3. Compute the correlation matrix
+        """
         print('Computing correlation now...')
-        print(self.options)
         startDate = self.__strToDateTime(self.options['--start-date'])
         lastDate = self.__strToDateTime(self.options['--last-date'])
         stocks = self.options['--stocks'].split(',')
@@ -53,14 +62,28 @@ class Compute(Base):
             ax = sns.heatmap(corr_df.values, cmap="YlGnBu", xticklabels=corr_df.columns, yticklabels=corr_df.columns)
             plt.show()
 
-
     def __strToDateTime(self, date):
+        """ Convert String to DateTime object
+        Keyword Arguments:
+            date: String type 
+        """
         return datetime.strptime(date, DATEFORMAT)
 
     def __dateTimeToStr(self, date):
+        """ Convert DateTime object input to string
+        Keyword Arguments:
+            date: DateTime type
+        """
         return date.strftime(DATEFORMAT)
 
     def __queryData(self, stock, sd, ld):
+        """ Query data from data fusion engine 
+            Return None if there is no enough data to cover input time window
+        Keyword Arguments:
+            stock:  stock symbol
+            sd:  starting date
+            ld:  last date
+        """
         data = self.dataFusion.query(stock)
         if sd >= self.__strToDateTime(data.index[0]) and ld <= self.__strToDateTime(data.index[-1]):
             return data[self.__dateTimeToStr(sd):self.__dateTimeToStr(ld)]

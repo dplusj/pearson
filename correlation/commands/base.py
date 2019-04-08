@@ -2,7 +2,7 @@
 
 
 class Base(object):
-    """A base command."""
+    """A base command class."""
 
     def __init__(self, options, *args, **kwargs):
         self.options = options
