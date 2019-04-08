@@ -61,7 +61,9 @@ class DataFusion(object):
         if METASTORE not in self.store:
             self.store[METASTORE] = metadata
         elif code in self.store[METASTORE]:
-            self.store[METASTORE][code] = refreshDate
+            metastore = self.store[METASTORE]
+            metastore[code] = refreshDate
+            self.store[METASTORE] = metastore
         else:
             self.store[METASTORE] = self.store[METASTORE].append(metadata)
 

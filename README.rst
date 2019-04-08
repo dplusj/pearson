@@ -25,7 +25,6 @@ some*), you would run the following command::
 
 Usage::
     
-    compute-correlation hello
     compute-correlation --start-date=<sd> --last-date=<ld> --stocks=<ss>
     compute-correlation -h | --help
     compute-correlation --version
@@ -37,7 +36,6 @@ Options::
 Examples::
    
     compute-correlation --start-date=2015-01-01 --last-date=2019-01-11 --stocks=AAPL,MSFT,GOOG --plot
-    compute-correlation hello
 
 This will trigger `py.test <http://pytest.org/latest/>`_, along with its popular
 `coverage <https://pypi.python.org/pypi/pytest-cov>`_ plugin.
