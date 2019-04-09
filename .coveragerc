@@ -1,2 +1,5 @@
 [run]
 disable_warnings = DeprecationWarning
+omit =
+   correlation/__main__.py
+   correlation/__init__.py

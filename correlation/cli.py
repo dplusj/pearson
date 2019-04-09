@@ -8,15 +8,12 @@ Options:
   -h --help                         Show this screen.
   --version                         Show version.
 Examples:
-  compute-correlation --start-date=2015-01-01 --last-date=2019-01-11 --stocks=AAPL,MSFT,GOOG --plot
+  compute-correlation --start-date=2015-01-01 --last-date=2019-01-11 --stocks=AAPL --plot
 """
 
 import os
 import configparser
-from inspect import getmembers, isclass
-
 from docopt import docopt
-
 from . import __version__ as VERSION
 from . import datafusion as engine
 
@@ -35,14 +32,12 @@ def main():
     dataFusion = engine.DataFusion(storePath, apiKey)
 
     try:
-        from correlation.commands.compute import Compute 
+        from correlation.commands.compute import Compute
         calculator = Compute(dataFusion, options)
         calculator.run()
     except ValueError as error:
         print(error)
     except Exception as e:
         print(e)
-    except:
-        print('Compute correlation failed due to unknown reason')
     finally:
         dataFusion.exit()

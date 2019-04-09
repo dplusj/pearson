@@ -28,7 +28,7 @@ class RunTests(Command):
 
     def run(self):
         """Run all tests!"""
-        errno = call(['py.test', '--cov=correlation', '--cov-report=term-missing', '-W ignore'])
+        errno = call(['py.test', '--cov=correlation', '--cov-config=./.coveragerc', '--cov-report=term-missing', '-W ignore'])
         raise SystemExit(errno)
 
 
@@ -50,9 +50,9 @@ setup(
     ],
     keywords = 'correlation',
     packages = find_packages(exclude=['docs', 'tests*']),
-    install_requires = ['docopt', 'pandas', 'alpha_vantage', 'matplotlib', 'tables', 'seaborn'],
+    install_requires = ['docopt==0.6.2', 'pandas==0.24.2', 'alpha_vantage==2.1.0', 'matplotlib==3.0.3', 'tables==3.5.1', 'seaborn==0.9.0'],
     extras_require = {
-        'test': ['coverage', 'pytest', 'pytest-cov'],
+        'test': ['coverage==4.5.3', 'pytest==4.4.0', 'pytest-cov==2.6.1'],
     },
     entry_points = {
         'console_scripts': [
