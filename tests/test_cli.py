@@ -15,7 +15,6 @@ class TestHelp(TestCase):
         output = popen(['compute-correlation', '--help'], stdout=PIPE).communicate()[0].decode("utf-8") 
         self.assertTrue('Usage:' in output)
 
-
 class TestVersion(TestCase):
     def test_returns_version_information(self):
         output = popen(['compute-correlation', '--version'], stdout=PIPE).communicate()[0].decode("utf-8") 

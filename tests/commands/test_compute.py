@@ -15,7 +15,7 @@ class TestCompute(TestCase):
 
         with mock.patch('correlation.datafusion.DataFusion') as mocked_datafusion:
             with self.assertRaises(ValueError): 
-                compute = Compute(mocked_datafusion, options)
+                compute = Compute(mocked_datafusion, None, options)
                 compute.run()
 
     def test_invalid_stocks_input(self):
@@ -28,7 +28,7 @@ class TestCompute(TestCase):
         with mock.patch('correlation.datafusion.DataFusion') as mocked_datafusion:
             with self.assertRaises(ValueError): 
                 mocked_datafusion.isValidCodes.return_value = False
-                compute = Compute(mocked_datafusion, options)
+                compute = Compute(mocked_datafusion, None, options)
                 compute.run()
 
     def test_compute_correlation(self):
@@ -44,10 +44,32 @@ class TestCompute(TestCase):
             df = pd.DataFrame(d)
             df = df.set_index('date')
             mocked_datafusion.query.return_value = df
-            compute = Compute(mocked_datafusion, options)
+            compute = Compute(mocked_datafusion, None, options)
             corr_df = compute.run()
             self.assertEqual(corr_df.iloc[1,0], 1)
             self.assertEqual(corr_df.iloc[0,1], 1)
 
+    def test_invalid_stock_universe(self):
+        options = {
+            '--start-date' : '2018-08-08',
+            '--last-date' : '2018-08-10',
+            '--stocks' : 'UNIVERSE.ABC'
+        }
+
+        with mock.patch('correlation.datafusion.DataFusion') as mocked_datafusion:
+            with self.assertRaises(ValueError): 
+                mocked_datafusion.isValidCodes.return_value = False
+                compute = Compute(mocked_datafusion, None, options)
+                compute.run()
+
+    def test_parse_stock_universe(self):
+        with mock.patch('correlation.datafusion.DataFusion') as mocked_datafusion:
+            options = {
+                '--start-date' : '2018-08-08',
+                '--last-date' : '2018-08-10',
+                '--stocks' : 'UNIVERSE.ABC'
+            }
+            compute = Compute(mocked_datafusion, {'ABC': 'abc,def'}, options)
+            self.assertEqual(compute.parseStocks('UNIVERSE.ABC'), 'abc,def')
 
         

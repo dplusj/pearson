@@ -29,11 +29,14 @@ def main():
     config.read(configPath, encoding="utf-8")
     apiKey = config['DEFAULT']['APIKEY']
     storePath = config['DEFAULT']['STOREPATH']
+    universe = None
+    if 'UNIVERSE' in config:
+      universe = config['UNIVERSE']
     dataFusion = engine.DataFusion(storePath, apiKey)
 
     try:
         from correlation.commands.compute import Compute
-        calculator = Compute(dataFusion, options)
+        calculator = Compute(dataFusion, universe, options)
         calculator.run()
     except ValueError as error:
         print(error)

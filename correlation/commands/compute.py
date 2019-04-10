@@ -11,12 +11,17 @@ DATEFORMAT = '%Y-%m-%d'
 COLUMNDATE = 'date'
 COLUMNSYMBOL = 'symbol'
 COLUMNCLOSE = '5. adjusted close'
+UNIVERSE = 'UNIVERSE.'
+PLOT = '--plot'
+STARTDATE = '--start-date'
+LASTDATE = '--last-date'
+STOCKS = '--stocks'
 
 
 class Compute(Base):
     """Class to compute the correlation of stocks given the time window!"""
 
-    def __init__(self, dataFusion, options, *args, **kwargs):
+    def __init__(self, dataFusion, universe, options, *args, **kwargs):
         """ Initialize the class
         Keyword Arguments:
             dataFusion:  instance of DataFusion for querying data
@@ -24,6 +29,7 @@ class Compute(Base):
         """
         super(Compute, self).__init__(options, args, kwargs)
         self.dataFusion = dataFusion
+        self.universe = universe
 
     def run(self):
         """ Main Entry
@@ -32,15 +38,15 @@ class Compute(Base):
         3. Compute the correlation matrix
         """
         print('Computing correlation now...')
-        startDate = self.__strToDateTime(self.options['--start-date'])
-        lastDate = self.__strToDateTime(self.options['--last-date'])
-        stocks = self.options['--stocks'].split(',')
+        startDate = self.__strToDateTime(self.options[STARTDATE])
+        lastDate = self.__strToDateTime(self.options[LASTDATE])
+        stocks = self.parseStocks(self.options[STOCKS]).split(',')
 
         if startDate >= lastDate:
             raise ValueError("Failed: Input contains invalid time window")
         elif not self.dataFusion.isValidCodes(stocks):
             raise ValueError("Failed: Input has invalid stock codes: "
-                             + self.options['--stocks'])
+                             + self.options[STOCKS])
         symbols = []
         for s in stocks:
             data = self.__queryData(s, startDate, lastDate)
@@ -61,13 +67,28 @@ class Compute(Base):
         print('Correlation Table')
         print(corr_df)
 
-        if '--plot' in self.options and self.options['--plot']:
+        if PLOT in self.options and self.options[PLOT]:
             sns.heatmap(corr_df.values, cmap="YlGnBu",
                         xticklabels=corr_df.columns,
                         yticklabels=corr_df.columns)
             plt.show()
 
         return corr_df
+
+    def parseStocks(self, stocks):
+        """ parse some special input into normal stock codes
+        Keyword Arguments:
+            stocks: String type
+        """
+        if stocks.startswith(UNIVERSE):
+            ss = stocks[len(UNIVERSE):]
+            if not self.universe or ss not in self.universe:
+                print 
+                raise ValueError('Unknown stock universe ' + ss)
+            else:
+                return self.universe[ss]
+        else:
+            return stocks
 
     def __strToDateTime(self, date):
         """ Convert String to DateTime object
