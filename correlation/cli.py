@@ -13,14 +13,14 @@ Examples:
 
 import os
 import configparser
-from docopt import docopt
+import docopt
 from . import __version__ as VERSION
 from . import datafusion as engine
 
 
 def main():
     """Main CLI entrypoint."""
-    options = docopt(__doc__, version=VERSION)
+    options = docopt.docopt(__doc__, version=VERSION)
     configPath = os.path.expanduser('~/.correlationrc')
     if not os.path.exists(configPath):
         raise ValueError('Missing default configuration file ~/.correlationrc')
@@ -39,8 +39,10 @@ def main():
         calculator = Compute(dataFusion, universe, options)
         calculator.run()
     except ValueError as error:
+        print('Found error:')
         print(error)
     except Exception as e:
+        print('Found exception:')
         print(e)
     finally:
         dataFusion.exit()
