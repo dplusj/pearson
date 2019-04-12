@@ -1,7 +1,8 @@
 compute-correlation
 =========
 
-[![Build Status](https://travis-ci.org/dplusj/pearson.svg?branch=master)](https://travis-ci.org/dplusj/pearson)
+.. image:: https://travis-ci.org/dplusj/pearson.svg?branch=master
+    :target: https://travis-ci.org/dplusj/pearson
 
 *A command line program in Python for computing the correlations of US stocks
 
