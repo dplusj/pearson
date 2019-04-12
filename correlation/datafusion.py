@@ -20,7 +20,9 @@ class DataFusion(object):
             apiKey:  Alpha Vantage api key
         """
         self.ts = TimeSeries(key=apiKey, output_format='pandas')
-        self.codeIndex = pd.read_csv('correlation/refdata/USStockCode.csv')
+        folder, filename = os.path.split(__file__)
+        stockcodes = os.path.join(folder, "refdata", "USStockCode.csv")
+        self.codeIndex = pd.read_csv(stockcodes)
         self.dataPath = dataPath
         if not os.path.exists(dataPath):
             print('creating new data folder: ' + dataPath)

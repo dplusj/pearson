@@ -50,6 +50,7 @@ setup(
     ],
     keywords = 'correlation',
     packages = find_packages(exclude=['docs', 'tests*']),
+    package_data={'correlation': ['refdata/USStockCode.csv']},
     install_requires = ['docopt==0.6.2', 'pandas==0.24.2', 'alpha_vantage==2.1.0', 'matplotlib==3.0.3', 'tables==3.5.1', 'seaborn==0.9.0'],
     extras_require = {
         'test': ['coverage==4.5.3', 'pytest==4.4.0', 'pytest-cov==2.6.1'],

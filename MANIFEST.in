@@ -4,6 +4,7 @@ exclude .travis.yml
 include README.rst
 include setup.cfg
 include LICENSE
+include correlation/refdata/USStockCode.csv
 prune .cache
 prune .git
 prune build
