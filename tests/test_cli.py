@@ -9,7 +9,9 @@ from correlation.cli import main
 
 class TestHelp(TestCase):
     @mock.patch('configparser.ConfigParser')
-    def test_call_compute_run(self, mock_configparser):
+    @mock.patch('os.path.exists')
+    def test_call_compute_run(self, mock_pathchecker, mock_configparser):
+        mock_pathchecker.return_value = True
         options = {
             '--start-date' : '2018-08-08',
             '--last-date' : '2018-08-10',
