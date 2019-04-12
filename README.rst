@@ -18,7 +18,7 @@ Then you need create a configuration file ('~/.correlationrc') under your user f
     APIKEY = XXXXXXXXX <- Free API KEY from `Alpha Vantage <https://www.alphavantage.co/support/#api-key>`
     STOREPATH = path to store the local data cache 
     [UNIVERSE]
-    bank = GS,JPM
+    bank = GS,JPM,MS
     tech = AAPL,MSFT,GOOG
 
 
@@ -29,7 +29,7 @@ some*), you would run the following command::
 
 Usage::
     
-    compute-correlation --start-date=<sd> --last-date=<ld> --stocks=<ss>
+    compute-correlation --start-date=<sd> --last-date=<ld> --stocks=<ss> [--plot]
     compute-correlation -h | --help
     compute-correlation --version
 
@@ -39,7 +39,7 @@ Options::
 
 Examples::
    
-    compute-correlation --start-date=2015-01-01 --last-date=2019-01-11 --stocks=AAPL,MSFT,GOOG --plot
+    compute-correlation --start-date=2015-01-01 --last-date=2019-01-11 --stocks=AAPL,MSFT,GOOG 
     compute-correlation --start-date=2015-01-01 --last-date=2019-01-11 --stocks=UNIVERSE.tech --plot
 
 This will trigger `py.test <http://pytest.org/latest/>`_, along with its popular
